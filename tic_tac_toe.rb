@@ -1,7 +1,25 @@
 # Contains the logic for various states the Game class needs to check for
 module Checks
-  def over?(board)
+  def over?(grid)
+    3.times do |current|
+      unless grid[current][0] == 'B'
+        return true if grid[current][0] == grid[current][1] && grid[current][0] == grid[current][2]
+      end
 
+      unless grid[0][current] == 'B'
+        return true if grid[0][current] == grid[1][current] && grid[0][current] == grid[2][current]
+      end
+    end
+
+    unless grid[0][0] == 'B'
+      return true if grid[0][0] == grid[1][1] && grid[0][0] == grid[2][2]
+    end
+
+    unless grid[0][2] == 'B'
+      return true if grid[0][2] == grid[1][1] && grid[0][2] == grid[2][0]
+    end
+
+    false
   end
 
   def move_valid?(move_row, move_column, grid)
@@ -11,7 +29,6 @@ module Checks
 
     true
   end
-
 end
 
 # Contains the logic for building and augmenting the board in the game
@@ -25,8 +42,7 @@ class Board
   def to_s
     @grid.map { |row| row.join(' | ') }.join("\n#{'-' * 10}\n")
   end
-  # move is going to have the format of 1 2
-  # 1 2 means place on row 1 column 2
+
   def make_move(move_row, move_column, player)
     grid[move_row][move_column] = player
   end
@@ -54,7 +70,6 @@ class Game
     else
       false
     end
-
   end
 end
 
@@ -64,13 +79,30 @@ class TicTacToe
 
   def self.play
     game = Game.new
-    until game.over?(game.board)
+    until game.over?(game.board.grid)
       puts game.board
-      puts "It is Player #{game.player}'s turn: \n"
+      puts "It is Player #{game.player}'s turn: "
       user_move = gets.chomp
       game.move(user_move)
+    end
+    puts game.board
+    if game.player == 'X'
+      puts 'Player O has won the game!'
+    else
+      puts 'Player X has won the game!'
     end
   end
 end
 
-TicTacToe.play
+input = ''
+puts 'Welcome to Tic-Tac-Toe!'
+puts 'To make a move, please use the format: Row Column'
+puts 'For example, if you want to place in the center, type: 2 2'
+sleep(5)
+while input != 'Q'
+  TicTacToe.play
+  sleep(8)
+  puts 'If you would like to play again, press enter'
+  puts 'To quit, press Q and enter'
+  input = gets.chomp
+end
