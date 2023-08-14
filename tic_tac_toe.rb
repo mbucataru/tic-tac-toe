@@ -1,7 +1,7 @@
-# Contains the logic for 
+# Contains the logic for various states the Game class needs to check for
 module Checks
   def game_over?(board)
-    
+
   end
 
   def move_valid?(move_row, move_column, grid)
@@ -11,6 +11,7 @@ module Checks
 
     true
   end
+
 end
 
 # Contains the logic for building and augmenting the board in the game
@@ -28,6 +29,7 @@ class Board
   end
 end
 
+# Includes the logic for the game of Tic-Tac-Toe
 class Game
   include Checks
 
@@ -44,11 +46,21 @@ class Game
     move_column = move[1].to_i - 1
     if move_valid?(move_row, move_column, board.grid)
       board.make_move(move_row, move_column, player)
+      player = player == 'X' ? 'O' : 'X'
     else
       false
-      
     end
 
   end
+end
 
+# Includes the logic for using the Game class to play a full game
+class TicTacToe
+  def initialize
+    @game = Game.new
+  end
+
+  def start
+
+  end
 end
