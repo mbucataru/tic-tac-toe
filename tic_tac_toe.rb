@@ -1,15 +1,19 @@
+# Contains the logic for 
 module Checks
-  def check_win(board)
-
+  def game_over?(board)
+    
   end
 
-  def check_move(move_row, move_column)
-    return false if move_row.negative? || move_row > 2 || move_column.negative? || move_column > 2
+  def move_valid?(move_row, move_column, grid)
+    if move_row.negative? || move_row > 2 || move_column.negative? || move_column > 2 || grid[move_row][move_column] != 'B'
+      return false
+    end
 
     true
   end
 end
 
+# Contains the logic for building and augmenting the board in the game
 class Board
   def initialize
     @grid = Array.new(3) { Array.new(3, 'B') }
@@ -38,10 +42,11 @@ class Game
     move = move.split
     move_row = move[0].to_i - 1
     move_column = move[1].to_i - 1
-    if check_move(move_row, move_column)
+    if move_valid?(move_row, move_column, board.grid)
       board.make_move(move_row, move_column, player)
     else
       false
+      
     end
 
   end
