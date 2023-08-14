@@ -84,6 +84,21 @@ class TicTacToe
   include Checks
 
   def self.play
+    input = ''
+    puts 'Welcome to Tic-Tac-Toe!'
+    puts 'To make a move, please use the format: Row Column'
+    puts 'For example, if you want to place in the center, type: 2 2'
+    sleep(5)
+    while input != 'Q'
+      play_round
+      sleep(8)
+      puts 'If you would like to play again, press enter'
+      puts 'To quit, press Q and enter'
+      input = gets.chomp
+    end
+  end
+
+  def self.play_round
     game = Game.new
     until game.over?(game.board.grid, game.board.empty_squares)
       puts game.board
@@ -104,15 +119,4 @@ class TicTacToe
   end
 end
 
-input = ''
-puts 'Welcome to Tic-Tac-Toe!'
-puts 'To make a move, please use the format: Row Column'
-puts 'For example, if you want to place in the center, type: 2 2'
-sleep(5)
-while input != 'Q'
-  TicTacToe.play
-  sleep(8)
-  puts 'If you would like to play again, press enter'
-  puts 'To quit, press Q and enter'
-  input = gets.chomp
-end
+TicTacToe.play
